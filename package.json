@@ -1,0 +1,41 @@
+{
+  "name": "nano-binary-search",
+  "description": "Binary search for JavaScript done right.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "tape6 --flags FO"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uhop/nano-binary-search.git"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/uhop"
+  },
+  "bugs": {
+    "url": "https://github.com/uhop/nano-binary-search/issues"
+  },
+  "homepage": "https://github.com/uhop/nano-binary-search#readme",
+  "keywords": [
+    "binary search",
+    "algorithm"
+  ],
+  "author": "Eugene Lazutkin <eugene.lazutkin@gmail.com> (https://www.lazutkin.com/)",
+  "license": "BSD-3-Clause",
+  "files": [
+    "index.js",
+    "LICENSE",
+    "README.md"
+  ],
+  "tape6": {
+    "tests": [
+      "tests/test-*.*js"
+    ]
+  },
+  "devDependencies": {
+    "tape-six": "^0.9.6"
+  }
+}
