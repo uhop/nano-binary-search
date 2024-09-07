@@ -7,6 +7,8 @@ This is a nano binary search implementation. It is a tiny single file with no de
 The only reason I wrote it because I wrote it countless times before, I think it is perfect now
 because it is done right and fits JavaScript &mdash; it is ripe for code reuse.
 
+For TypeScript users the typings are included.
+
 ## Why?
 
 Why do I think it is done right? Because it supports important invariants with
@@ -60,7 +62,16 @@ Do you want to search a sub-array? Just pass in indices.
 
 ## API
 
-`binarySearch(sortedArray, lessFn, l = 0, r = sortedArray.length)`:
+The TypeScript-like API is as follows:
+
+```ts
+binarySearch<T>(
+  sortedArray: readonly T[],
+  lessFn: (value: T, index: number, array: readonly T[]) => boolean,
+  l: number = 0,
+  r: number = sortedArray.length
+): boolean;
+```
 
 * Inputs:
   * `sortedArray` &mdash; sorted array of some values. We don't care about values in this array.
@@ -69,7 +80,6 @@ Do you want to search a sub-array? Just pass in indices.
     (a value from array) is less than our value, whatever it is. The second value is its index,
     and the third is the `sortedArray`.
     * The function interface is modeled on the callback function of array methods.
-    * The signature: `lessFn(value: T, index: number, array: T[]) => boolean`.
   * `l` &mdash; left index. This index is inclusive. Defaults to 0.
   * `r` &mdash; right index. This index is exclusive. Defaults to `sortedArray.length`.
 
