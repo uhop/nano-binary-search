@@ -68,15 +68,15 @@ Do you want to search a sub-array? Just pass in indices.
   * `lessFn` &mdash; function that takes three argument and returns a truthy value if the first argument
     (a value from array) is less than our value, whatever it is. The second value is its index,
     and the third is the `sortedArray`.
-    * The function interface is modeled on callback function of array methods.
-    * The signature: `lessFn(value, index, array) => boolean`.
+    * The function interface is modeled on the callback function of array methods.
+    * The signature: `lessFn(value: T, index: number, array: T[]) => boolean`.
   * `l` &mdash; left index. This index is inclusive. Defaults to 0.
   * `r` &mdash; right index. This index is exclusive. Defaults to `sortedArray.length`.
 
 The function return an index, where we can safely insert the searched value with `splice()`:
 
-* if we used `<` operator, the index will point to the first value that is greater or equal than the searched value.
-* if we used `<=` operator, the index will point to the first value that is greater than the searched value.
+* if we used `<` operator as the comparison function, the index will point to the first value that is greater or equal than the searched value.
+* if we used `<=` operator as the comparison function, the index will point to the first value that is greater than the searched value.
 
 That's all Folks!
 
@@ -134,4 +134,5 @@ This project is licensed under the BSD-3-Clause license.
 
 ## Release history
 
+- 1.0.1 *Added TS typings*
 - 1.0.0 *Initial release*
