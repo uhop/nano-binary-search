@@ -2,10 +2,18 @@
   "name": "nano-binary-search",
   "description": "Binary search for JavaScript done right.",
   "version": "1.0.0",
-  "main": "index.js",
   "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
+  },
   "scripts": {
-    "test": "tape6 --flags FO"
+    "test": "tape6 --flags FO",
+    "ts-check": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -36,6 +44,7 @@
     ]
   },
   "devDependencies": {
-    "tape-six": "^0.9.6"
+    "tape-six": "^0.9.6",
+    "typescript": "^5.5.4"
   }
 }
