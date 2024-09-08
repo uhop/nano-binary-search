@@ -1,7 +1,8 @@
 /**
  * Comparison function type. It compares a value with some internal pivot value and returns a boolean.
+ * Additional arguments are `index` (the pivot index) and `sortedArray`.
  */
-type LessFn<T = any> = (x: T, index: number, array: readonly T[]) => boolean;
+type LessFn<T = any> = (value: T, index: number, sortedArray: readonly T[]) => boolean;
 
 /**
  * Binary search (see [docs](https://github.com/uhop/nano-binary-search#readme)):
