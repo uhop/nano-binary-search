@@ -1,7 +1,7 @@
 {
   "name": "nano-binary-search",
   "description": "Binary search for JavaScript done right.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "main": "index.js",
   "types": "index.d.ts",
