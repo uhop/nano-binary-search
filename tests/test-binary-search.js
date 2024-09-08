@@ -20,6 +20,22 @@ test('binarySearch: sorted array', t => {
   t.deepEqual(array, sortedArray);
 });
 
+test('binarySearch: backward sorted array', t => {
+  const array = [],
+    sortedArray = [];
+
+  for (let i = 0; i < 100; i++) {
+    const value = Math.floor(Math.random() * 1000);
+    array.push(value);
+
+    const index = binarySearch(sortedArray, x => x > value);
+    sortedArray.splice(index, 0, value);
+  }
+  array.sort((a, b) => b - a);
+
+  t.deepEqual(array, sortedArray);
+});
+
 test('binarySearch: remove equal values', t => {
   {
     const sortedArray = [1, 3, 3, 4];
