@@ -4,7 +4,8 @@
 type LessFn<T = any> = (x: T, index: number, array: readonly T[]) => boolean;
 
 /**
- * Binary search.
+ * Binary search (see [docs](https://github.com/uhop/nano-binary-search#readme)):
+ * `binarySearch([1, 2, 3], x => x < 3)`
  *
  * @param sortedArray sorted array. It should be sorted in a compatible way with the comparison function.
  * @param lessFn comparison function that takes a value, compares it with the pivot value, and returns a boolean. See {@link LessFn}.
@@ -15,4 +16,3 @@ type LessFn<T = any> = (x: T, index: number, array: readonly T[]) => boolean;
 export declare function binarySearch<T>(sortedArray: readonly T[], lessFn: LessFn<T>, l?: number, r?: number): number;
 
 export default binarySearch;
-//# sourceMappingURL=index.d.ts.map
