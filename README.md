@@ -65,7 +65,7 @@ Do you want to search a sub-array? Just pass in indices.
 The TypeScript-like API is as follows:
 
 ```ts
-binarySearch<T>(
+const index: number = binarySearch<T>(
   sortedArray: readonly T[],
   lessFn: (value: T, index: number, array: readonly T[]) => boolean,
   l: number = 0,
