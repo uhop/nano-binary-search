@@ -1,7 +1,7 @@
 {
   "name": "nano-binary-search",
   "description": "Binary search for JavaScript done right.",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "type": "module",
   "main": "index.js",
   "types": "index.d.ts",
@@ -15,7 +15,7 @@
     "start": "tape6-server --trace",
     "test": "tape6 --flags FO",
     "test:bun": "tape6-bun --flags FO",
-    "test:deno": "deno run -A `tape6-runner deno` --flags FO",
+    "test:deno": "deno run -A `tape6-runner main` --flags FO",
     "test:deno-original": "tape6-deno --flags FO",
     "ts-check": "tsc --noEmit"
   },
@@ -54,7 +54,7 @@
     }
   },
   "devDependencies": {
-    "tape-six": "^0.11.0",
+    "tape-six": "^0.12.1",
     "typescript": "^5.6.2"
   }
 }
