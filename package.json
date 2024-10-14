@@ -58,7 +58,7 @@
   },
   "devDependencies": {
     "tape-six": "^1.0.2",
-    "tape-six-proc": "^0.12.1",
+    "tape-six-proc": "^1.0.0",
     "typescript": "^5.6.3"
   }
 }
