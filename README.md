@@ -144,9 +144,10 @@ This project is licensed under the BSD-3-Clause license.
 
 ## Release history
 
-* 1.0.6 *Updated deps*
-* 1.0.5 *Updated deps*
-* 1.0.4 *Updated deps*
+* 1.0.7 *Updated dev deps*
+* 1.0.6 *Updated dev deps*
+* 1.0.5 *Updated dev deps*
+* 1.0.4 *Updated dev deps*
 * 1.0.3 *Added a reference to the TS types*
 * 1.0.2 *Improved docs*
 * 1.0.1 *Added TS typings*
