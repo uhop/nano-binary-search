@@ -15,11 +15,10 @@
     "start": "tape6-server --trace",
     "test": "tape6 --flags FO",
     "test:bun": "tape6-bun --flags FO",
-    "test:deno": "deno run -A `npx tape6-runner main` --flags FO",
-    "test:deno-original": "tape6-deno --flags FO",
+    "test:deno": "tape6-deno --flags FO",
     "test:proc": "tape6-proc --flags FO",
     "test:proc:bun": "bun run `npx tape6-proc --self` --flags FO",
-    "test:proc:deno": "deno run -A `npx tape6-proc --self` --flags FO --runFileArgs -A",
+    "test:proc:deno": "deno run -A `npx tape6-proc --self` --flags FO -r --allow-env",
     "ts-check": "tsc --noEmit"
   },
   "repository": {
@@ -57,8 +56,8 @@
     }
   },
   "devDependencies": {
-    "tape-six": "^1.0.2",
-    "tape-six-proc": "^0.12.1",
-    "typescript": "^5.6.3"
+    "tape-six": "^1.4.1",
+    "tape-six-proc": "^1.1.1",
+    "typescript": "^5.9.3"
   }
 }
