@@ -1,7 +1,7 @@
 # nano-binary-search [![NPM version][npm-img]][npm-url]
 
-[npm-img]:      https://img.shields.io/npm/v/nano-binary-search.svg
-[npm-url]:      https://npmjs.org/package/nano-binary-search
+[npm-img]: https://img.shields.io/npm/v/nano-binary-search.svg
+[npm-url]: https://npmjs.org/package/nano-binary-search
 
 This is a nano binary search implementation. It is a tiny single file with no dependencies.
 The only reason I wrote it because I wrote it countless times before, I think it is perfect now
@@ -73,20 +73,20 @@ const index: number = binarySearch<T>(
 ): boolean;
 ```
 
-* Inputs:
-  * `sortedArray` &mdash; sorted array of some values. We don't care about values in this array.
+- Inputs:
+  - `sortedArray` &mdash; sorted array of some values. We don't care about values in this array.
     It is up to `lessFn` to compare them. The array should be sorted in a compatible way with `lessFn`.
-  * `lessFn` &mdash; function that takes three argument and returns a truthy value if the first argument
+  - `lessFn` &mdash; function that takes three argument and returns a truthy value if the first argument
     (a value from array) is less than our value, whatever it is. The second value is its index,
     and the third is the `sortedArray`.
-    * The function interface is modeled on the callback function of array methods.
-  * `l` &mdash; left index. This index is inclusive. Defaults to 0.
-  * `r` &mdash; right index. This index is exclusive. Defaults to `sortedArray.length`.
+    - The function interface is modeled on the callback function of array methods.
+  - `l` &mdash; left index. This index is inclusive. Defaults to 0.
+  - `r` &mdash; right index. This index is exclusive. Defaults to `sortedArray.length`.
 
 The function return an index, where we can safely insert the searched value with `splice()`:
 
-* if we used `<` operator as the comparison function, the index will point to the first value that is greater or equal than the searched value.
-* if we used `<=` operator as the comparison function, the index will point to the first value that is greater than the searched value.
+- if we used `<` operator as the comparison function, the index will point to the first value that is greater or equal than the searched value.
+- if we used `<=` operator as the comparison function, the index will point to the first value that is greater than the searched value.
 
 That's all Folks!
 
@@ -128,7 +128,7 @@ For example (two argument version for simplicity):
 const stringLessFn = (a, b) => a < b;
 
 // comparator #1 (two comparisons)
-const stringCompareFn1 = (a, b) => a < b ? -1 : a > b ? 1 : 0;
+const stringCompareFn1 = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
 
 // comparator #2: smarter (a method call)
 const stringCompareFn2 = (a, b) => a.localeCompare(b);
@@ -144,12 +144,13 @@ This project is licensed under the BSD-3-Clause license.
 
 ## Release history
 
-* 1.0.8 *Updated dev deps*
-* 1.0.7 *Updated dev deps*
-* 1.0.6 *Updated dev deps*
-* 1.0.5 *Updated dev deps*
-* 1.0.4 *Updated dev deps*
-* 1.0.3 *Added a reference to the TS types*
-* 1.0.2 *Improved docs*
-* 1.0.1 *Added TS typings*
-* 1.0.0 *Initial release*
+- 1.0.9 _Updated dev deps_
+- 1.0.8 _Updated dev deps_
+- 1.0.7 _Updated dev deps_
+- 1.0.6 _Updated dev deps_
+- 1.0.5 _Updated dev deps_
+- 1.0.4 _Updated dev deps_
+- 1.0.3 _Added a reference to the TS types_
+- 1.0.2 _Improved docs_
+- 1.0.1 _Added TS typings_
+- 1.0.0 _Initial release_

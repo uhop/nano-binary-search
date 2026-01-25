@@ -1,7 +1,7 @@
 {
   "name": "nano-binary-search",
   "description": "Binary search for JavaScript done right.",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "type": "module",
   "main": "index.js",
   "types": "index.d.ts",
@@ -19,7 +19,9 @@
     "test:proc": "tape6-proc --flags FO",
     "test:proc:bun": "bun run `npx tape6-proc --self` --flags FO",
     "test:proc:deno": "deno run -A `npx tape6-proc --self` --flags FO -r --allow-env",
-    "ts-check": "tsc --noEmit"
+    "ts-check": "tsc --noEmit",
+    "lint": "prettier --check .",
+    "lint:fix": "prettier --write ."
   },
   "repository": {
     "type": "git",
@@ -56,8 +58,8 @@
     }
   },
   "devDependencies": {
-    "tape-six": "^1.4.4",
-    "tape-six-proc": "^1.1.5",
+    "tape-six": "^1.4.5",
+    "tape-six-proc": "^1.1.6",
     "typescript": "^5.9.3"
   }
 }
