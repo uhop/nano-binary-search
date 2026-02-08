@@ -144,6 +144,7 @@ This project is licensed under the BSD-3-Clause license.
 
 ## Release history
 
+- 1.0.10 _Updated dev deps_
 - 1.0.9 _Updated dev deps_
 - 1.0.8 _Updated dev deps_
 - 1.0.7 _Updated dev deps_
