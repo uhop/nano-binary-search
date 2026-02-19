@@ -40,14 +40,24 @@
   "homepage": "https://github.com/uhop/nano-binary-search#readme",
   "keywords": [
     "binary search",
-    "algorithm"
+    "algorithm",
+    "sorted array",
+    "insertion point",
+    "lower bound",
+    "upper bound",
+    "bisect",
+    "search",
+    "splice",
+    "zero dependencies",
+    "lightweight"
   ],
   "author": "Eugene Lazutkin <eugene.lazutkin@gmail.com> (https://www.lazutkin.com/)",
   "license": "BSD-3-Clause",
   "files": [
     "index.*",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "llms.txt"
   ],
   "tape6": {
     "tests": [

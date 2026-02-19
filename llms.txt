@@ -1,0 +1,55 @@
+# nano-binary-search
+
+> Binary search for JavaScript done right. Zero dependencies, single file.
+> Equivalent to C++ `std::lower_bound` / Python `bisect.bisect_left`.
+
+## Install
+
+```
+npm install nano-binary-search
+```
+
+## Usage
+
+```js
+import binarySearch from 'nano-binary-search';
+
+// Find insertion point (lower bound): index of first element >= value
+const index = binarySearch(sortedArray, x => x < value);
+sortedArray.splice(index, 0, value); // insert keeping sorted order
+
+// Find upper bound: index of first element > value
+const upper = binarySearch(sortedArray, x => x <= value);
+
+// Find and remove all elements equal to value
+const lo = binarySearch(sortedArray, x => x < value);
+const hi = binarySearch(sortedArray, x => x <= value, lo);
+sortedArray.splice(lo, hi - lo);
+```
+
+## API
+
+`binarySearch(sortedArray, lessFn, l?, r?)` → `number`
+
+- `sortedArray` — sorted array of values of type `T`.
+- `lessFn(value: T, index: number, array: readonly T[])` — returns `true` if `value` is less than the pivot. The comparison function.
+- `l` — left index, inclusive. Defaults to `0`.
+- `r` — right index, exclusive. Defaults to `sortedArray.length`.
+- Returns: insertion index compatible with `Array.prototype.splice()`.
+
+## Key properties
+
+- With `<` in lessFn: returns index of first element ≥ pivot (**lower bound**).
+- With `<=` in lessFn: returns index of first element > pivot (**upper bound**).
+- Works correctly with empty arrays, sub-ranges, duplicate values, and custom comparators.
+- The result is always a valid `splice()` index — no off-by-one errors.
+
+## Examples with results
+
+```js
+binarySearch([1, 2, 4, 5], x => x < 3)   // → 2 (insert 3 at index 2)
+binarySearch([1, 2, 4, 5], x => x <= 2)   // → 2 (upper bound of 2)
+binarySearch([], x => x < 5)              // → 0 (empty array)
+binarySearch([1, 2, 3], x => x < 1)       // → 0 (before all)
+binarySearch([1, 2, 3], x => x < 4)       // → 3 (after all)
+```

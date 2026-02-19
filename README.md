@@ -9,6 +9,34 @@ because it is done right and fits JavaScript &mdash; it is ripe for code reuse.
 
 For TypeScript users the typings are included.
 
+This is equivalent to C++ `std::lower_bound` / Python `bisect.bisect_left`.
+
+## Quick reference
+
+```js
+import binarySearch from 'nano-binary-search';
+
+// Lower bound (first element >= value):
+binarySearch([1, 2, 4, 5], x => x < 3);   // → 2
+
+// Upper bound (first element > value):
+binarySearch([1, 2, 4, 5], x => x <= 2);   // → 2
+
+// Insert keeping sorted order:
+const idx = binarySearch(sortedArray, x => x < value);
+sortedArray.splice(idx, 0, value);
+
+// Remove all elements equal to value:
+const lo = binarySearch(sortedArray, x => x < value);
+const hi = binarySearch(sortedArray, x => x <= value, lo);
+sortedArray.splice(lo, hi - lo);
+
+// Edge cases — just work:
+binarySearch([], x => x < 5);              // → 0 (empty array)
+binarySearch([1, 2, 3], x => x < 1);       // → 0 (before all)
+binarySearch([1, 2, 3], x => x < 4);       // → 3 (after all)
+```
+
 ## Why?
 
 Why do I think it is done right? Because it supports important invariants with
@@ -85,8 +113,8 @@ const index: number = binarySearch<T>(
 
 The function return an index, where we can safely insert the searched value with `splice()`:
 
-- if we used `<` operator as the comparison function, the index will point to the first value that is greater or equal than the searched value.
-- if we used `<=` operator as the comparison function, the index will point to the first value that is greater than the searched value.
+- if we used `<` operator as the comparison function, the index will point to the first value that is greater or equal than the searched value (**lower bound**, like C++ `std::lower_bound` or Python `bisect_left`).
+- if we used `<=` operator as the comparison function, the index will point to the first value that is greater than the searched value (**upper bound**, like C++ `std::upper_bound` or Python `bisect_right`).
 
 That's all Folks!
 
