@@ -12,7 +12,7 @@ For TypeScript users the typings are included.
 ## Why?
 
 Why do I think it is done right? Because it supports important invariants with
-[splice()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice).
+[splice()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice).
 
 ### No need to worry about inserting values
 
@@ -70,7 +70,7 @@ const index: number = binarySearch<T>(
   lessFn: (value: T, index: number, array: readonly T[]) => boolean,
   l: number = 0,
   r: number = sortedArray.length
-): boolean;
+): number;
 ```
 
 - Inputs:
