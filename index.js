@@ -1,7 +1,5 @@
 // @ts-self-types="./index.d.ts"
 
-'use strict';
-
 /**
  * Binary search (lower bound). Equivalent to C++ `std::lower_bound` / Python `bisect.bisect_left`.
  *

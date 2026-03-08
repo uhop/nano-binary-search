@@ -22,6 +22,9 @@ nano-binary-search is a single-function binary search (lower bound) for JavaScri
 - `npm test` — run the full test suite
 - `npm run test:bun` — run with Bun
 - `npm run test:deno` — run with Deno
+- `npm run ts-test` — run TS tests with Node
+- `npm run ts-test:bun` — run TS tests with Bun
+- `npm run ts-test:deno` — run TS tests with Deno
 - `npm run ts-check` — TypeScript type checking
 - `npm run lint` — Prettier format check
 
@@ -30,5 +33,11 @@ nano-binary-search is a single-function binary search (lower bound) for JavaScri
 - Implementation: `index.js` (single file, ~12 lines)
 - TypeScript types: `index.d.ts`
 - Tests: `tests/test-binary-search.js` (tape-six)
+- TS typing tests: `tests/test-types.ts`
+- CJS usage tests: `tests/test-cjs.cjs`
 - AI/LLM reference: `llms.txt`
 - Documentation: `README.md`
+
+## Writing tests
+
+**Before writing or updating tests**, read the tape-six skill at `node_modules/tape-six/skills/write-tests/SKILL.md` and the testing guide at `node_modules/tape-six/TESTING.md`.
