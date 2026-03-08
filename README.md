@@ -17,10 +17,10 @@ This is equivalent to C++ `std::lower_bound` / Python `bisect.bisect_left`.
 import binarySearch from 'nano-binary-search';
 
 // Lower bound (first element >= value):
-binarySearch([1, 2, 4, 5], x => x < 3);   // → 2
+binarySearch([1, 2, 4, 5], x => x < 3); // → 2
 
 // Upper bound (first element > value):
-binarySearch([1, 2, 4, 5], x => x <= 2);   // → 2
+binarySearch([1, 2, 4, 5], x => x <= 2); // → 2
 
 // Insert keeping sorted order:
 const idx = binarySearch(sortedArray, x => x < value);
@@ -32,9 +32,9 @@ const hi = binarySearch(sortedArray, x => x <= value, lo);
 sortedArray.splice(lo, hi - lo);
 
 // Edge cases — just work:
-binarySearch([], x => x < 5);              // → 0 (empty array)
-binarySearch([1, 2, 3], x => x < 1);       // → 0 (before all)
-binarySearch([1, 2, 3], x => x < 4);       // → 3 (after all)
+binarySearch([], x => x < 5); // → 0 (empty array)
+binarySearch([1, 2, 3], x => x < 1); // → 0 (before all)
+binarySearch([1, 2, 3], x => x < 4); // → 3 (after all)
 ```
 
 ## Why?

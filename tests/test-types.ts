@@ -26,7 +26,11 @@ test('types: object array inference', t => {
     id: number;
     name: string;
   }
-  const items: readonly Item[] = [{id: 1, name: 'a'}, {id: 2, name: 'b'}, {id: 3, name: 'c'}];
+  const items: readonly Item[] = [
+    {id: 1, name: 'a'},
+    {id: 2, name: 'b'},
+    {id: 3, name: 'c'}
+  ];
   const idx: number = binarySearch(items, (value: Item) => value.id < 2);
   t.equal(idx, 1);
 });

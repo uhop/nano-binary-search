@@ -40,9 +40,18 @@ test('binarySearch: empty array', t => {
 });
 
 test('binarySearch: single element array', t => {
-  t.equal(binarySearch([5], x => x < 5), 0);
-  t.equal(binarySearch([5], x => x < 6), 1);
-  t.equal(binarySearch([5], x => x < 4), 0);
+  t.equal(
+    binarySearch([5], x => x < 5),
+    0
+  );
+  t.equal(
+    binarySearch([5], x => x < 6),
+    1
+  );
+  t.equal(
+    binarySearch([5], x => x < 4),
+    0
+  );
 });
 
 test('binarySearch: custom r parameter', t => {
