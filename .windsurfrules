@@ -1,0 +1,34 @@
+<!-- Canonical source: AGENTS.md — keep this file in sync -->
+# nano-binary-search — AI Agent Rules
+
+## Project identity
+
+nano-binary-search is a single-function binary search (lower bound) for JavaScript. Zero dependencies, single file. Equivalent to C++ `std::lower_bound` / Python `bisect.bisect_left`.
+
+## Critical rules
+
+- **ESM-only.** The project is `"type": "module"`. Use `import`/`export` syntax.
+- **Zero runtime dependencies.** Never add packages to `dependencies`.
+- **Do not add comments or remove comments** unless explicitly asked.
+- **Keep `index.js` and `index.d.ts` in sync.** The public API is a single function exported as both named and default export.
+
+## Code style
+
+- Prettier: 160 char width, single quotes, no bracket spacing, no trailing commas, arrow parens "avoid" (see `.prettierrc`).
+- Imports at top of file, using `import` syntax.
+
+## Verification commands
+
+- `npm test` — run the full test suite
+- `npm run test:bun` — run with Bun
+- `npm run test:deno` — run with Deno
+- `npm run ts-check` — TypeScript type checking
+- `npm run lint` — Prettier format check
+
+## File layout
+
+- Implementation: `index.js` (single file, ~12 lines)
+- TypeScript types: `index.d.ts`
+- Tests: `tests/test-binary-search.js` (tape-six)
+- AI/LLM reference: `llms.txt`
+- Documentation: `README.md`
