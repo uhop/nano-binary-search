@@ -3,11 +3,10 @@
 [npm-img]: https://img.shields.io/npm/v/nano-binary-search.svg
 [npm-url]: https://npmjs.org/package/nano-binary-search
 
-This is a nano binary search implementation. It is a tiny single file with no dependencies.
-The only reason I wrote it because I wrote it countless times before, I think it is perfect now
-because it is done right and fits JavaScript &mdash; it is ripe for code reuse.
+A tiny, single-file binary search with no dependencies.
+After writing it countless times, I believe this version is done right and fits JavaScript &mdash; ripe for reuse.
 
-For TypeScript users the typings are included.
+TypeScript typings are included.
 
 This is equivalent to C++ `std::lower_bound` / Python `bisect.bisect_left`.
 
@@ -83,14 +82,14 @@ What if there is no such value in the array? That's fine. It still works.
 ### API that makes sense
 
 There is no need to pass in a function and a comparison value every time.
-In the modern JavaScript/TypeScript, it is easier to get the comparison value straight from the closure
-like in the examples.
+In modern JavaScript/TypeScript it is easier to capture the comparison value in a closure,
+as shown in the examples above.
 
 Do you want to search a sub-array? Just pass in indices.
 
 ## API
 
-The TypeScript-like API is as follows:
+TypeScript-like API:
 
 ```ts
 const index: number = binarySearch<T>(
@@ -102,19 +101,17 @@ const index: number = binarySearch<T>(
 ```
 
 - Inputs:
-  - `sortedArray` &mdash; sorted array of some values. We don't care about values in this array.
-    It is up to `lessFn` to compare them. The array should be sorted in a compatible way with `lessFn`.
-  - `lessFn` &mdash; function that takes three argument and returns a truthy value if the first argument
-    (a value from array) is less than our value, whatever it is. The second value is its index,
-    and the third is the `sortedArray`.
-    - The function interface is modeled on the callback function of array methods.
+  - `sortedArray` &mdash; sorted array of values. The array must be sorted in a way compatible with `lessFn`.
+  - `lessFn` &mdash; function that takes three arguments and returns `true` if the element
+    (first argument) is less than the target value. The second argument is the index,
+    the third is `sortedArray`. The signature mirrors the standard array callback convention.
   - `l` &mdash; left index. This index is inclusive. Defaults to 0.
   - `r` &mdash; right index. This index is exclusive. Defaults to `sortedArray.length`.
 
-The function return an index, where we can safely insert the searched value with `splice()`:
+The function returns an index where the target value can be inserted with `splice()`:
 
-- if we used `<` operator as the comparison function, the index will point to the first value that is greater or equal than the searched value (**lower bound**, like C++ `std::lower_bound` or Python `bisect_left`).
-- if we used `<=` operator as the comparison function, the index will point to the first value that is greater than the searched value (**upper bound**, like C++ `std::upper_bound` or Python `bisect_right`).
+- With `<`: the index of the first element greater than or equal to the target (**lower bound**, C++ `std::lower_bound` / Python `bisect_left`).
+- With `<=`: the index of the first element greater than the target (**upper bound**, C++ `std::upper_bound` / Python `bisect_right`).
 
 That's all Folks!
 
@@ -124,8 +121,7 @@ That's all Folks!
 
 Yes.
 
-The only reasonable way to make it faster is to take its code and inline `lessFn()`. The other idea is
-to inline `binarySearch()` itself in your code. That's about all.
+The only way to make it meaningfully faster is to inline the entire search in your code, eliminating the function-call overhead of `lessFn()`.
 
 **What if I want to take into account the index of the searched value?**
 
@@ -147,8 +143,8 @@ const lessFn = x => compareFn(x, value) < 0,
 
 **Why doesn't it use a comparator function for searching?**
 
-We don't need to compare values in the array for equality. A simple `less` function is enough.
-In many cases it is easier to implement just a `less` function.
+Binary search does not need equality comparison &mdash; a simple `less` function is sufficient
+and often easier to implement.
 
 For example (two argument version for simplicity):
 
@@ -172,6 +168,7 @@ This project is licensed under the BSD-3-Clause license.
 
 ## Release history
 
+- 1.0.12 _Exported `LessFn` type, added TS typing tests and CJS tests, improved docs and d.ts JSDoc_
 - 1.0.11 _Technical release: more tests to increase coverage, more AI-friendly changes_
 - 1.0.10 _Updated dev deps_
 - 1.0.9 _Updated dev deps_
