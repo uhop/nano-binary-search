@@ -1,7 +1,7 @@
 {
   "name": "nano-binary-search",
   "description": "Binary search for JavaScript done right.",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "type": "module",
   "main": "index.js",
   "types": "index.d.ts",
@@ -75,8 +75,8 @@
   },
   "devDependencies": {
     "prettier": "^3.8.1",
-    "tape-six": "^1.7.11",
-    "tape-six-proc": "^1.2.6",
+    "tape-six": "^1.7.12",
+    "tape-six-proc": "^1.2.7",
     "typescript": "^5.9.3"
   }
 }

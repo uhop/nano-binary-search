@@ -168,6 +168,7 @@ This project is licensed under the BSD-3-Clause license.
 
 ## Release history
 
+- 1.0.13 _Updated dev deps_
 - 1.0.12 _Exported `LessFn` type, added TS typing tests and CJS tests, improved docs and d.ts JSDoc_
 - 1.0.11 _Technical release: more tests to increase coverage, more AI-friendly changes_
 - 1.0.10 _Updated dev deps_
