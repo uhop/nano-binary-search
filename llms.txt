@@ -52,3 +52,23 @@ binarySearch([], x => x < 5)              // → 0 (empty array)
 binarySearch([1, 2, 3], x => x < 1)       // → 0 (before all)
 binarySearch([1, 2, 3], x => x < 4)       // → 3 (after all)
 ```
+
+## Related: keeping sort and search in sync
+
+The sorted array must be sorted in a way compatible with `lessFn`. The clean way to enforce that is to derive both the sort comparator and the search `lessFn` from a single source. [`meta-toolkit/comparators`](https://github.com/uhop/meta-toolkit) ships the adapters:
+
+- `lessFromCompare(compareFn)` — `(a, b) => boolean` from a sort-style comparator. Use when you already have a `compareFn` for `Array.prototype.sort()`.
+- `compareFromLess(lessFn)` — the inverse; build a `sort()`-compatible comparator from a `less` function.
+- `reverseLess(lessFn)` / `reverseCompare(compareFn)` — descending order.
+- `equalFromLess(lessFn)` — derived equality (for membership checks alongside the search).
+
+Typical pairing with `nano-binary-search`:
+
+```js
+import binarySearch from 'nano-binary-search';
+import {lessFromCompare} from 'meta-toolkit/comparators';
+
+const less = lessFromCompare(compareFn);              // build once
+sortedArray.sort(compareFn);                          // sort with compareFn
+const idx = binarySearch(sortedArray, x => less(x, target)); // search with derived less
+```

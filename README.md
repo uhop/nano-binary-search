@@ -130,7 +130,7 @@ That's why `lessFn(value, index, array)` has extra arguments.
 
 **What if the array uses a custom comparator for sorting, while this binary search uses a `less` function?**
 
-Simple:
+Either convert it inline:
 
 ```js
 let compareFn; // some complex function defined elsewhere
@@ -141,6 +141,18 @@ let value; // some search value defined elsewhere
 const lessFn = x => compareFn(x, value) < 0,
   index = binarySearch(sortedArray, lessFn);
 ```
+
+&mdash; or derive it with [`meta-toolkit`](https://github.com/uhop/meta-toolkit)'s comparator adapters, so sort and search stay in sync from a single source:
+
+```js
+import {lessFromCompare} from 'meta-toolkit/comparators';
+
+const less = lessFromCompare(compareFn); // (a, b) => boolean, built once
+sortedArray.sort(compareFn);
+const index = binarySearch(sortedArray, x => less(x, value));
+```
+
+The adapter approach pays off when one comparator drives multiple searches, when you need the inverse direction (`compareFromLess` &mdash; e.g., you started with a `less` function and need a `sort()` comparator), descending order (`reverseLess` / `reverseCompare`), or derived equality (`equalFromLess`). All five adapters live in [`meta-toolkit/comparators`](https://github.com/uhop/meta-toolkit).
 
 **Why doesn't it use a comparator function for searching?**
 
