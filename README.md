@@ -3,10 +3,11 @@
 [npm-img]: https://img.shields.io/npm/v/nano-binary-search.svg
 [npm-url]: https://npmjs.org/package/nano-binary-search
 
-A tiny, single-file binary search with no dependencies.
-After writing it countless times, I believe this version is done right and fits JavaScript &mdash; ripe for reuse.
+A tiny, single-file binary search with no dependencies. TypeScript typings are included.
 
-TypeScript typings are included.
+After writing it countless times, I believe this version is done right and fits JavaScript &mdash; a perfect companion for sorted arrays.
+
+What "done right" means here: **every result is a valid `Array.prototype.splice()` index, unconditionally.** Empty arrays, out-of-range values, duplicates, sub-ranges &mdash; all return an index you can pass straight to `splice()` without any check, and the array stays sorted afterwards. No ifs or buts.
 
 This is equivalent to C++ `std::lower_bound` / Python `bisect.bisect_left`.
 

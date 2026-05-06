@@ -1,7 +1,6 @@
 # nano-binary-search
 
-> Binary search for JavaScript done right. Zero dependencies, single file.
-> Equivalent to C++ `std::lower_bound` / Python `bisect.bisect_left`.
+> Single-function binary search (lower bound) for JavaScript and TypeScript. Returns an `Array.prototype.splice()`-compatible insertion index for every input — no bounds checks needed. Zero dependencies, single-file ESM. Equivalent to C++ `std::lower_bound` / Python `bisect.bisect_left`.
 
 ## Install
 
