@@ -6,10 +6,7 @@
   "main": "index.js",
   "types": "index.d.ts",
   "exports": {
-    ".": {
-      "types": "./index.d.ts",
-      "default": "./index.js"
-    }
+    ".": "./index.js"
   },
   "scripts": {
     "start": "tape6-server --trace",
