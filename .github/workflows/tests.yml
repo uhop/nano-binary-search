@@ -2,29 +2,29 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
 name: Node.js CI
+permissions:
+  contents: read
 
 on:
   push:
     branches: ['*']
   pull_request:
-    branches: [master]
+    branches: [main]
 
 jobs:
   tests:
     name: Node.js ${{matrix.node-version}} on ubuntu-latest
-    permissions:
-      contents: read
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [20, 22, 24, 25]
+        node-version: [22, 24, 26]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: true
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{matrix.node-version}}
       - run: |
