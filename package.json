@@ -58,7 +58,8 @@
     "index.*",
     "LICENSE",
     "README.md",
-    "llms.txt"
+    "llms.txt",
+    "llms-full.txt"
   ],
   "tape6": {
     "tests": [

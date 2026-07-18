@@ -11,6 +11,12 @@ What "done right" means here: **every result is a valid `Array.prototype.splice(
 
 This is equivalent to C++ `std::lower_bound` / Python `bisect.bisect_left`.
 
+## Installation
+
+```bash
+npm install nano-binary-search
+```
+
 ## Quick reference
 
 ```js

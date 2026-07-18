@@ -1,0 +1,119 @@
+# nano-binary-search
+
+> Single-function binary search (lower bound) for JavaScript and TypeScript. Returns an `Array.prototype.splice()`-compatible insertion index for every input — no bounds checks needed. Zero dependencies, single-file ESM. Equivalent to C++ `std::lower_bound` / Python `bisect.bisect_left`.
+
+- NPM: https://npmjs.org/package/nano-binary-search
+- GitHub: https://github.com/uhop/nano-binary-search
+- License: BSD-3-Clause
+- Runtime: Node.js (every non-EOL release), Bun, Deno; no `engines` floor pinned
+- Module system: ESM only (`"type": "module"`); CJS consumers use `require()` via Node's require-ESM interop (Node 22.12+)
+
+## Installation
+
+```bash
+npm install nano-binary-search
+```
+
+## API
+
+Module: `nano-binary-search` (root export only; the function is exported both as default and by name).
+
+```ts
+export type LessFn<T = any> = (value: T, index: number, sortedArray: readonly T[]) => boolean;
+
+export declare function binarySearch<T>(sortedArray: readonly T[], lessFn: LessFn<T>, l?: number, r?: number): number;
+
+export default binarySearch;
+```
+
+### Parameters
+
+- `sortedArray` — array sorted in a way compatible with `lessFn`.
+- `lessFn(value, index, sortedArray)` — returns `true` if `value` is less than the pivot. Follows the standard array-callback convention: the second argument is the index of `value`, the third is the array itself.
+- `l` — left index, inclusive. Defaults to `0`.
+- `r` — right index, exclusive. Defaults to `sortedArray.length`.
+
+### Semantics
+
+- With `<` in `lessFn`: returns the index of the first element ≥ pivot (**lower bound**, C++ `std::lower_bound` / Python `bisect_left`).
+- With `<=` in `lessFn`: returns the index of the first element > pivot (**upper bound**, C++ `std::upper_bound` / Python `bisect_right`).
+
+### Guarantees
+
+- The result is always in `[l, r]` and is always a valid `splice()` index — empty arrays, out-of-range pivots, duplicate values, and sub-ranges included.
+- Inserting the pivot at the returned index preserves sort order.
+- Complexity: O(log n) calls to `lessFn`; no allocations.
+
+## Usage
+
+ESM:
+
+```js
+import binarySearch from 'nano-binary-search';
+```
+
+CommonJS (Node 22.12+ `require()` of ESM):
+
+```js
+const {binarySearch} = require('nano-binary-search');
+```
+
+TypeScript (types resolve via the `@ts-self-types` directive; `LessFn` is exported for annotating comparison functions):
+
+```ts
+import binarySearch, {type LessFn} from 'nano-binary-search';
+
+const less: LessFn<number> = x => x < 42;
+const index: number = binarySearch([1, 2, 40, 50], less);
+```
+
+## Recipes
+
+```js
+// Find insertion point (lower bound): index of first element >= value
+const index = binarySearch(sortedArray, x => x < value);
+sortedArray.splice(index, 0, value); // insert keeping sorted order
+
+// Find upper bound: index of first element > value
+const upper = binarySearch(sortedArray, x => x <= value);
+
+// Find and remove all elements equal to value
+const lo = binarySearch(sortedArray, x => x < value);
+const hi = binarySearch(sortedArray, x => x <= value, lo);
+sortedArray.splice(lo, hi - lo);
+
+// Search a sub-range only: pass the bounds
+const inRange = binarySearch(sortedArray, x => x < value, 10, 20);
+```
+
+### Examples with results
+
+```js
+binarySearch([1, 2, 4, 5], x => x < 3); // → 2 (insert 3 at index 2)
+binarySearch([1, 2, 4, 5], x => x <= 2); // → 2 (upper bound of 2)
+binarySearch([], x => x < 5); // → 0 (empty array)
+binarySearch([1, 2, 3], x => x < 1); // → 0 (before all)
+binarySearch([1, 2, 3], x => x < 4); // → 3 (after all)
+```
+
+## Related: keeping sort and search in sync
+
+The sorted array must be sorted in a way compatible with `lessFn`. The clean way to enforce that is to derive both the sort comparator and the search `lessFn` from a single source. [`meta-toolkit/comparators`](https://github.com/uhop/meta-toolkit) ships the adapters:
+
+- `lessFromCompare(compareFn)` — `(a, b) => boolean` from a sort-style comparator. Use when you already have a `compareFn` for `Array.prototype.sort()`.
+- `compareFromLess(lessFn)` — the inverse; build a `sort()`-compatible comparator from a `less` function.
+- `reverseLess(lessFn)` / `reverseCompare(compareFn)` — descending order.
+- `equalFromLess(lessFn)` — derived equality (for membership checks alongside the search).
+
+Typical pairing with `nano-binary-search`:
+
+```js
+import binarySearch from 'nano-binary-search';
+import {lessFromCompare} from 'meta-toolkit/comparators';
+
+const less = lessFromCompare(compareFn); // build once
+sortedArray.sort(compareFn); // sort with compareFn
+const idx = binarySearch(sortedArray, x => less(x, target)); // search with derived less
+```
+
+`nano-binary-search` has zero runtime dependencies — `meta-toolkit` is a documented companion, not a requirement.

@@ -22,7 +22,10 @@ nano-binary-search/
 ├── index.js        # Single source file — the entire implementation
 ├── index.d.ts      # TypeScript type definitions
 ├── package.json    # Package config; "tape6" section configures test discovery
-├── llms.txt        # AI/LLM-readable API reference
+├── llms.txt        # AI/LLM-readable API summary (ships in the npm tarball)
+├── llms-full.txt   # AI/LLM-readable full API reference (ships in the npm tarball)
+├── ARCHITECTURE.md # Internal layout and design notes
+├── CONTRIBUTING.md # Contribution guide
 ├── tests/          # Test files using tape-six
 │   ├── test-binary-search.js   # Main functional tests (ESM)
 │   ├── test-types.ts           # TypeScript typing tests
@@ -34,7 +37,7 @@ nano-binary-search/
 
 - **ESM-only.** The project is `"type": "module"`. Use `import`/`export` syntax.
 - **Prettier** for formatting (see `.prettierrc`): 160 char width, single quotes, no bracket spacing, no trailing commas, arrow parens "avoid".
-- **Do not add comments or remove comments** unless explicitly asked.
+- **No comments that narrate the code.** Don't write a comment that restates _what_ the code does. Allowed, each as the shortest possible marker: JSDoc when requested or required; a reference for a non-trivial algorithm; a non-trivial _decision_ or constraint — _why_ it's this way, including footgun/ordering caveats that have a real reason. The bar is _why_, never _what_. Strip narrating comments opportunistically in files you're already editing.
 - **Keep `index.js` and `index.d.ts` in sync.** The public API is a single function exported as both named and default export.
 
 ## Writing tests
