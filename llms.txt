@@ -1,6 +1,6 @@
 # nano-binary-search
 
-> Single-function binary search (lower bound) for JavaScript and TypeScript. Returns an `Array.prototype.splice()`-compatible insertion index for every input — no bounds checks needed. Zero dependencies, single-file ESM. Equivalent to C++ `std::lower_bound` / Python `bisect.bisect_left`.
+> Binary search (lower bound) for JavaScript and TypeScript, plus the familiar sorted-array operations built on it: `indexOf`, `includes`, `insert`, `remove`, and friends. Every result is an `Array.prototype.splice()`-compatible insertion index — no bounds checks needed. Zero dependencies, single-file ESM. Equivalent to C++ `std::lower_bound` / Python `bisect.bisect_left`.
 
 ## Install
 
@@ -8,25 +8,9 @@
 npm install nano-binary-search
 ```
 
-## Usage
-
-```js
-import binarySearch from 'nano-binary-search';
-
-// Find insertion point (lower bound): index of first element >= value
-const index = binarySearch(sortedArray, x => x < value);
-sortedArray.splice(index, 0, value); // insert keeping sorted order
-
-// Find upper bound: index of first element > value
-const upper = binarySearch(sortedArray, x => x <= value);
-
-// Find and remove all elements equal to value
-const lo = binarySearch(sortedArray, x => x < value);
-const hi = binarySearch(sortedArray, x => x <= value, lo);
-sortedArray.splice(lo, hi - lo);
-```
-
 ## API
+
+Core primitive (default and named export):
 
 `binarySearch(sortedArray, lessFn, l?, r?)` → `number`
 
@@ -36,12 +20,33 @@ sortedArray.splice(lo, hi - lo);
 - `r` — right index, exclusive. Defaults to `sortedArray.length`.
 - Returns: insertion index compatible with `Array.prototype.splice()`.
 
+Sorted-array functions (named exports) — value-based wrappers around the primitive. `less(a, b)` is a binary predicate returning `true` if `a` is ordered before `b`, defaulting to `(a, b) => a < b`; the array must be sorted compatibly with `less` and the value must be comparable under it. Equality is derived from the ordering (equal ⇔ neither is less) and costs one extra `less` call after the search. `l`/`r` are optional sub-range bounds.
+
+Queries (accept `readonly` arrays):
+
+- `lowerBound(sortedArray, value, less?, l?, r?)` → `number` — index of the first element ≥ `value`.
+- `upperBound(sortedArray, value, less?, l?, r?)` → `number` — index of the first element > `value`.
+- `indexOf(sortedArray, value, less?, l?, r?)` → `number` — index of the first equal element, or `-1`.
+- `lastIndexOf(sortedArray, value, less?, l?, r?)` → `number` — index of the last equal element, or `-1`.
+- `includes(sortedArray, value, less?, l?, r?)` → `boolean` — whether an equal element is present.
+- `equalRange(sortedArray, value, less?, l?, r?)` → `[lo, hi]` — half-open span of equal elements; empty (`lo === hi`) at the insertion point when absent.
+- `count(sortedArray, value, less?, l?, r?)` → `number` — the number of equal elements.
+
+Mutators:
+
+- `insert(sortedArray, value, less?)` → `number` — inserts keeping sort order, after any equal elements (like Python's `bisect.insort`); returns the insertion index.
+- `remove(sortedArray, value, less?)` → `boolean` — removes the first equal element; `true` if removed.
+- `removeAll(sortedArray, value, less?)` → `number` — removes all equal elements; returns their number.
+
+Types: `LessFn<T>` (the unary closure for `binarySearch`), `Less<T>` (the binary predicate for the value-based functions).
+
 ## Key properties
 
 - With `<` in lessFn: returns index of first element ≥ pivot (**lower bound**).
 - With `<=` in lessFn: returns index of first element > pivot (**upper bound**).
 - Works correctly with empty arrays, sub-ranges, duplicate values, and custom comparators.
 - The result is always a valid `splice()` index — no off-by-one errors.
+- Mutators preserve the sorted-array invariant unconditionally.
 
 ## Examples with results
 
@@ -49,26 +54,36 @@ sortedArray.splice(lo, hi - lo);
 binarySearch([1, 2, 4, 5], x => x < 3)   // → 2 (insert 3 at index 2)
 binarySearch([1, 2, 4, 5], x => x <= 2)   // → 2 (upper bound of 2)
 binarySearch([], x => x < 5)              // → 0 (empty array)
-binarySearch([1, 2, 3], x => x < 1)       // → 0 (before all)
-binarySearch([1, 2, 3], x => x < 4)       // → 3 (after all)
+
+indexOf([1, 3, 3, 5], 3)                  // → 1 (first of the run)
+lastIndexOf([1, 3, 3, 5], 3)              // → 2
+includes([1, 3, 3, 5], 4)                 // → false
+equalRange([1, 3, 3, 5], 3)               // → [1, 3]
+count([1, 3, 3, 5], 3)                    // → 2
+
+const a = [1, 3, 3, 5];
+insert(a, 4)                              // → 3; a is [1, 3, 3, 4, 5]
+remove(a, 4)                              // → true; a is [1, 3, 3, 5]
+removeAll(a, 3)                           // → 2; a is [1, 5]
 ```
 
 ## Related: keeping sort and search in sync
 
-The sorted array must be sorted in a way compatible with `lessFn`. The clean way to enforce that is to derive both the sort comparator and the search `lessFn` from a single source. [`meta-toolkit/comparators`](https://github.com/uhop/meta-toolkit) ships the adapters:
+The sorted array must be sorted in a way compatible with `less`. The clean way to enforce that is to derive both the sort comparator and the search predicate from a single source. [`meta-toolkit/comparators`](https://github.com/uhop/meta-toolkit) ships the adapters:
 
 - `lessFromCompare(compareFn)` — `(a, b) => boolean` from a sort-style comparator. Use when you already have a `compareFn` for `Array.prototype.sort()`.
 - `compareFromLess(lessFn)` — the inverse; build a `sort()`-compatible comparator from a `less` function.
 - `reverseLess(lessFn)` / `reverseCompare(compareFn)` — descending order.
 - `equalFromLess(lessFn)` — derived equality (for membership checks alongside the search).
 
-Typical pairing with `nano-binary-search`:
+The derived predicate plugs straight into every value-based function:
 
 ```js
-import binarySearch from 'nano-binary-search';
+import {indexOf, insert} from 'nano-binary-search';
 import {lessFromCompare} from 'meta-toolkit/comparators';
 
-const less = lessFromCompare(compareFn);              // build once
-sortedArray.sort(compareFn);                          // sort with compareFn
-const idx = binarySearch(sortedArray, x => less(x, target)); // search with derived less
+const less = lessFromCompare(compareFn); // build once
+sortedArray.sort(compareFn); // sort with compareFn
+const idx = indexOf(sortedArray, value, less); // search with the derived less
+insert(sortedArray, newValue, less); // insert with it too
 ```
