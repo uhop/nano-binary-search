@@ -27,3 +27,14 @@ test('CJS: remove equal values', t => {
   sortedArray.splice(lo, hi - lo);
   t.deepEqual(sortedArray, [1, 4]);
 });
+
+test('CJS: sorted-array functions', t => {
+  const {indexOf, includes, insert, removeAll} = require('../index.js');
+  const a = [1, 3, 3, 5];
+  t.equal(indexOf(a, 3), 1);
+  t.ok(includes(a, 5));
+  t.equal(insert(a, 4), 3);
+  t.deepEqual(a, [1, 3, 3, 4, 5]);
+  t.equal(removeAll(a, 3), 2);
+  t.deepEqual(a, [1, 4, 5]);
+});

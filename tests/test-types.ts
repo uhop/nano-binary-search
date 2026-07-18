@@ -1,7 +1,19 @@
 import test from 'tape-six';
 
-import binarySearch, {binarySearch as namedBinarySearch} from '../index.js';
-import type {LessFn} from '../index.js';
+import binarySearch, {
+  binarySearch as namedBinarySearch,
+  lowerBound,
+  upperBound,
+  indexOf,
+  lastIndexOf,
+  includes,
+  equalRange,
+  count,
+  insert,
+  remove,
+  removeAll
+} from '../index.js';
+import type {LessFn, Less} from '../index.js';
 
 test('types: default and named imports', t => {
   const a: number = binarySearch([1, 2, 3], x => x < 2);
@@ -87,4 +99,57 @@ test('types: exported LessFn type', t => {
   const strLessFn: LessFn<string> = (value, _index, _array) => value < 'c';
   const idx2: number = binarySearch(['a', 'b', 'c', 'd'], strLessFn);
   t.equal(idx2, 2);
+});
+
+test('types: exported Less type and value-based queries', t => {
+  const less: Less<number> = (a, b) => a < b;
+  const arr: readonly number[] = [1, 3, 3, 5];
+
+  const lb: number = lowerBound(arr, 3, less);
+  const ub: number = upperBound(arr, 3);
+  const first: number = indexOf(arr, 3, less, 0, 4);
+  const last: number = lastIndexOf(arr, 3);
+  const present: boolean = includes(arr, 3);
+  const range: [number, number] = equalRange(arr, 3);
+  const n: number = count(arr, 3);
+
+  t.equal(lb, 1);
+  t.equal(ub, 3);
+  t.equal(first, 1);
+  t.equal(last, 2);
+  t.equal(present, true);
+  t.deepEqual(range, [1, 3]);
+  t.equal(n, 2);
+});
+
+test('types: mutators take mutable arrays', t => {
+  const arr: number[] = [1, 3, 5];
+
+  const at: number = insert(arr, 4);
+  const removed: boolean = remove(arr, 3);
+  const removedCount: number = removeAll(arr, 4);
+
+  t.equal(at, 2);
+  t.equal(removed, true);
+  t.equal(removedCount, 1);
+  t.deepEqual(arr, [1, 5]);
+});
+
+test('types: object arrays with Less', t => {
+  interface Item {
+    id: number;
+    name?: string;
+  }
+  const byId: Less<Item> = (a, b) => a.id < b.id;
+  const items: Item[] = [
+    {id: 1, name: 'a'},
+    {id: 2, name: 'b'},
+    {id: 3, name: 'c'}
+  ];
+
+  const idx: number = indexOf(items, {id: 2}, byId);
+  t.equal(idx, 1);
+
+  const at: number = insert(items, {id: 4, name: 'd'}, byId);
+  t.equal(at, 3);
 });
