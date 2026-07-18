@@ -39,7 +39,7 @@ nano-binary-search/
 - **ESM-only.** The project is `"type": "module"`. Use `import`/`export` syntax.
 - **Prettier** for formatting (see `.prettierrc`): 160 char width, single quotes, no bracket spacing, no trailing commas, arrow parens "avoid".
 - **No comments that narrate the code.** Don't write a comment that restates _what_ the code does. Allowed, each as the shortest possible marker: JSDoc when requested or required; a reference for a non-trivial algorithm; a non-trivial _decision_ or constraint — _why_ it's this way, including footgun/ordering caveats that have a real reason. The bar is _why_, never _what_. Strip narrating comments opportunistically in files you're already editing.
-- **Keep `index.js` and `index.d.ts` in sync.** `binarySearch` is exported both named and default; the sorted-array functions are named-only. Full JSDoc lives in `index.d.ts`; `index.js` carries one-line summaries.
+- **Keep `index.js` and `index.d.ts` in sync.** `binarySearch` is exported both named and default; the sorted-array functions are named-only. All JSDoc lives in `index.d.ts` — none in `index.js`; the `@ts-self-types` directive routes editors to the `.d.ts`.
 
 ## Writing tests
 
