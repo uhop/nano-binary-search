@@ -3,7 +3,7 @@ import test from 'tape-six';
 import fc from 'fast-check';
 import 'tape-six-fast-check';
 
-import {lowerBound, upperBound, indexOf, lastIndexOf, includes, equalRange, count, insert, remove, removeAll} from '../index.js';
+import {binarySearch, lowerBound, upperBound, indexOf, lastIndexOf, includes, equalRange, count, insert, remove, removeAll} from '../index.js';
 
 // INVARIANTS.md is the package's claims as data; this suite keeps them true.
 // The minimal extractor below stands in for the invariants-sidecar parser
@@ -33,14 +33,55 @@ const arbCase = fc
   })
   .map(({values, value}) => ({sorted: [...values].sort((x, y) => x - y), value}));
 
-test('INVARIANTS.md carries the five executable checks', t => {
+test('INVARIANTS.md carries the seven executable checks', t => {
   t.deepEqual(Object.keys(checks), [
     'pre:sorted',
+    'pre:partitioned',
+    'post:partition-point',
     'post:lowerBound-first-not-less',
     'post:upperBound-first-greater',
     'law:bounds-ordered',
     'law:window-is-equivalence'
   ]);
+});
+
+test('invariants: binarySearch pre → result-range + partition-point', async t => {
+  await t.prop(
+    [arbCase],
+    ({sorted, value}) => {
+      const lessFn = x => x < value;
+      const l = 0,
+        r = sorted.length;
+      if (!checks['pre:partitioned'](sorted, lessFn, l, r)) return false;
+      const result = binarySearch(sorted, lessFn, l, r);
+      if (!(l <= result && result <= r)) return false;
+      return checks['post:partition-point'](result, sorted, lessFn, l, r);
+    },
+    'pre:partitioned → result-range ∧ post:partition-point'
+  );
+});
+
+test('invariants: the log-calls complexity bound', async t => {
+  await t.prop(
+    [arbCase],
+    ({sorted, value}) => {
+      let calls = 0;
+      const counted = x => (++calls, x < value);
+      binarySearch(sorted, counted, 0, sorted.length);
+      const bound = sorted.length ? Math.ceil(Math.log2(sorted.length)) + 1 : 1;
+      return calls <= bound;
+    },
+    'complexity:log-calls'
+  );
+});
+
+test('invariants: a violated precondition yields a meaningless in-range index', t => {
+  const unsorted = [3, 1, 2];
+  const lessFn = x => x < 2;
+  t.notOk(checks['pre:partitioned'](unsorted, lessFn, 0, 3));
+  const result = binarySearch(unsorted, lessFn, 0, 3);
+  t.ok(result >= 0 && result <= 3);
+  t.notOk(checks['post:partition-point'](result, unsorted, lessFn, 0, 3));
 });
 
 test('invariants: bound postconditions', async t => {
