@@ -225,6 +225,18 @@ const stringCompareFn2 = (a, b) => a.localeCompare(b);
 
 Look at the code of `index.js` and `tests/` for more details. Go to the GitHub repository and ask.
 
+## Invariants
+
+The package ships its machine-checkable claims as data:
+[INVARIANTS.md](./INVARIANTS.md) — preconditions, postconditions,
+cross-function laws, mutator effects, replacement patterns with their
+call-site obligations, and hazards, with executable checks embedded as
+fenced code blocks. The test suite (`tests/test-invariants.js`) compiles
+those checks and holds the implementation to them with property tests, so
+the claims are verified, never trusted. The file is included in the npm
+tarball: tools and agents can read the contract straight from
+`node_modules`.
+
 ## License
 
 This project is licensed under the BSD-3-Clause license.
