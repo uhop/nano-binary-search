@@ -2,28 +2,13 @@ import {readFileSync} from 'node:fs';
 import test from 'tape-six';
 import fc from 'fast-check';
 import 'tape-six-fast-check';
+import {parseSidecar, compileChecks} from 'invariants-sidecar';
 
 import {binarySearch, lowerBound, upperBound, indexOf, lastIndexOf, includes, equalRange, count, insert, remove, removeAll} from '../index.js';
 
 // INVARIANTS.md is the package's claims as data; this suite keeps them true.
-// The minimal extractor below stands in for the invariants-sidecar parser
-// until that package is published — same fence grammar, checks only.
-const extractChecks = text => {
-  const checks = {};
-  const lines = text.split('\n');
-  for (let i = 0; i < lines.length; ++i) {
-    const open = /^(\s*)```js check (\w+):(\S+)$/.exec(lines[i]);
-    if (!open) continue;
-    const [, indent, kind, name] = open;
-    const body = [];
-    for (++i; i < lines.length && lines[i].trim() !== '```'; ++i) body.push(lines[i].slice(indent.length));
-    const source = body.join('\n').trim().replace(/;$/, '');
-    checks[kind + ':' + name] = new Function(`'use strict'; return (${source});`)();
-  }
-  return checks;
-};
-
-const checks = extractChecks(readFileSync(new URL('../INVARIANTS.md', import.meta.url), 'utf8'));
+const sidecar = parseSidecar(readFileSync(new URL('../INVARIANTS.md', import.meta.url), 'utf8'));
+const checks = compileChecks(sidecar);
 const less = (a, b) => a < b;
 
 const arbCase = fc

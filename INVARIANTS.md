@@ -30,8 +30,8 @@ one ordering parameter (`std::` container semantics).
 - `consistent-less`: `less` is a strict weak ordering (irreflexive,
   transitive, with transitive incomparability); `defaultLess` on numbers of
   one type satisfies this — mixed `NaN`/mixed-type arrays do not.
-- `partitioned` (assumed, never checked at runtime; O(n) to verify) —
-  `binarySearch` only: over `[l, r)`, `lessFn` values form `true* false*`,
+- `partitioned` (assumed, never checked at runtime; O(n) to verify):
+  `binarySearch` only — over `[l, r)`, `lessFn` values form `true* false*`,
   no `true` after a `false`. A sorted array queried with a consistent
   `<`-style predicate satisfies this; `sorted` + `consistent-less` is the
   family's way of establishing it.
@@ -52,10 +52,10 @@ one ordering parameter (`std::` container semantics).
 
 ## Postconditions
 
-- `result-range` — `binarySearch`: `l <= result && result <= r`. Note
+- `result-range` (`binarySearch`): `l <= result && result <= r`. Note
   `result` may equal `sortedArray.length`: it is an insertion index, not a
   found index.
-- `partition-point` — `binarySearch`:
+- `partition-point` (`binarySearch`):
 
   ```js check post:partition-point
   (result, sortedArray, lessFn, l, r) => {

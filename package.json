@@ -1,6 +1,6 @@
 {
   "name": "nano-binary-search",
-  "description": "Tiny, zero-dependency binary search and sorted-array operations (indexOf, includes, insert, remove) for JavaScript and TypeScript. Every result is a valid Array.splice() index \u2014 no bounds checks, no off-by-one. Equivalent to std::lower_bound / bisect_left.",
+  "description": "Tiny, zero-dependency binary search and sorted-array operations (indexOf, includes, insert, remove) for JavaScript and TypeScript. Every result is a valid Array.splice() index — no bounds checks, no off-by-one. Equivalent to std::lower_bound / bisect_left.",
   "version": "1.1.0",
   "type": "module",
   "main": "index.js",
@@ -77,6 +77,7 @@
   },
   "devDependencies": {
     "fast-check": "^4.9.0",
+    "invariants-sidecar": "^0.0.1",
     "prettier": "^3.9.5",
     "tape-six": "^1.15.0",
     "tape-six-fast-check": "^1.0.0",
