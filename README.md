@@ -252,6 +252,7 @@ This project is licensed under the BSD-3-Clause license.
 
 ## Release history
 
+- 1.2.0 _Ships `INVARIANTS.md`, the machine-checkable contract with executable checks, discoverable via the new `invariants` field in `package.json`_
 - 1.1.0 _Added sorted-array functions built on the binary search: `indexOf`, `includes`, `insert`, `remove`, and friends_
 - 1.0.14 _Minor housekeeping. Updated dev deps_
 - 1.0.13 _Updated dev deps_
