@@ -242,7 +242,8 @@ points at it the way `types` points at the declarations; the root filename
 is a fallback. The frontmatter states what the claims cover: `sidecar` is
 the format version, `package` matches this package's name, `binds` is the
 version range the claims describe, and `verified: ci` marks them as checked
-by continuous integration rather than advisory. The `invariants-sidecar`
+by continuous integration rather than advisory. The
+[`invariants-sidecar`](https://github.com/uhop/invariants-sidecar)
 package parses the format and compiles the executable checks.
 
 ## License

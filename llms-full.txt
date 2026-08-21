@@ -172,7 +172,8 @@ carries `sidecar: 1` (the format version), `package`
 (`nano-binary-search`, which must equal the host package name), `binds`
 (`^1.1.0`, the version range the claims describe), and `verified: ci`,
 which is what makes the claims ingestible rather than advisory. The
-`invariants-sidecar` package parses the format and compiles the checks.
+[`invariants-sidecar`](https://github.com/uhop/invariants-sidecar)
+package parses the format and compiles the checks.
 
 ## Related: keeping sort and search in sync
 
