@@ -166,6 +166,14 @@ obligations, and hazards — structured claims with executable checks, kept
 true by the package's own test suite. Read it before writing call sites;
 the `pattern:` sections state exactly what a call site owes.
 
+`package.json` names the file in its `invariants` field, the way `types`
+names the declarations; the root filename is a fallback. The frontmatter
+carries `sidecar: 1` (the format version), `package`
+(`nano-binary-search`, which must equal the host package name), `binds`
+(`^1.1.0`, the version range the claims describe), and `verified: ci`,
+which is what makes the claims ingestible rather than advisory. The
+`invariants-sidecar` package parses the format and compiles the checks.
+
 ## Related: keeping sort and search in sync
 
 The sorted array must be sorted in a way compatible with `less`. The clean way to enforce that is to derive both the sort comparator and the search predicate from a single source. [`meta-toolkit/comparators`](https://github.com/uhop/meta-toolkit) ships the adapters:

@@ -237,6 +237,14 @@ the claims are verified, never trusted. The file is included in the npm
 tarball: tools and agents can read the contract straight from
 `node_modules`.
 
+To find the file, read the `invariants` field in `package.json`, which
+points at it the way `types` points at the declarations; the root filename
+is a fallback. The frontmatter states what the claims cover: `sidecar` is
+the format version, `package` matches this package's name, `binds` is the
+version range the claims describe, and `verified: ci` marks them as checked
+by continuous integration rather than advisory. The `invariants-sidecar`
+package parses the format and compiles the executable checks.
+
 ## License
 
 This project is licensed under the BSD-3-Clause license.

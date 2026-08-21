@@ -9,9 +9,11 @@ build step, no transpilation — the published tarball is the source.
 ```
 index.js       # The entire implementation — the core primitive and the derived family
 index.d.ts     # Hand-written type declarations — the authoritative type contract
+INVARIANTS.md  # Machine-checkable claims — the contract consumers read, discovered via package.json#invariants
 tests/
 ├── test-binary-search.js   # Core primitive tests (ESM)
 ├── test-sorted-ops.js      # Sorted-array functions tests (ESM)
+├── test-invariants.js      # INVARIANTS.md claims as property tests
 ├── test-types.ts           # TypeScript typing tests
 └── test-cjs.cjs            # CommonJS usage tests
 ```
@@ -43,5 +45,10 @@ named-only.
 
 ## Tests
 
-Tests use `tape-six`; `package.json#tape6` declares the test glob and the importmap for the in-browser runner. The four files cover the core primitive
-(ESM), the sorted-array family (ESM), the typings (TS), and CJS interop. CI runs the matrix of non-EOL Node versions on ubuntu-latest.
+Tests use `tape-six`; `package.json#tape6` declares the test glob and the importmap for the in-browser runner. The five files cover the core primitive
+(ESM), the sorted-array family (ESM), the `INVARIANTS.md` claims (property tests), the typings (TS), and CJS interop. CI runs the matrix of non-EOL Node
+versions on ubuntu-latest.
+
+`tests/test-invariants.js` parses `INVARIANTS.md` with `invariants-sidecar`, compiles its fenced checks into callables, and drives them with `fast-check`
+properties through `tape-six-fast-check`. That run is what backs the `verified: ci` key in the file's frontmatter: without CI executing these checks, a
+consumer must treat the claims as advisory.

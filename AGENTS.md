@@ -22,6 +22,7 @@ nano-binary-search/
 ├── index.js        # Single source file — the entire implementation
 ├── index.d.ts      # TypeScript type definitions
 ├── package.json    # Package config; "tape6" section configures test discovery
+├── INVARIANTS.md   # Machine-checkable contract (ships in the npm tarball)
 ├── llms.txt        # AI/LLM-readable API summary (ships in the npm tarball)
 ├── llms-full.txt   # AI/LLM-readable full API reference (ships in the npm tarball)
 ├── ARCHITECTURE.md # Internal layout and design notes
@@ -29,6 +30,7 @@ nano-binary-search/
 ├── tests/          # Test files using tape-six
 │   ├── test-binary-search.js   # Core primitive tests (ESM)
 │   ├── test-sorted-ops.js      # Sorted-array functions tests (ESM)
+│   ├── test-invariants.js      # INVARIANTS.md claims as property tests
 │   ├── test-types.ts           # TypeScript typing tests
 │   └── test-cjs.cjs            # CommonJS usage tests
 └── README.md       # Documentation
